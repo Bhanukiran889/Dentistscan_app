@@ -2,26 +2,28 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
 import Header from "../components/Header";
+import Cookies from "js-cookie";
 
 const DentistDashboard = () => {
   const [scans, setScans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("token");
 
   useEffect(() => {
     const fetchScans = async () => {
       try {
-        const response = await axios.get("https://your-backend.com/api/scans", {
+        const response = await axios.get("http://localhost:5000/api/scans", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setScans(response.data.scans || []); // adjust if backend sends {scans: [...]}
+        console.log(response.data);
+        setScans(response.data); // ← response is an array
         setLoading(false);
-      } catch {
-        setError("Failed to fetch scans");
+      } catch (err) {
+        setError(err.response?.data?.error || "Failed to fetch scans");
         setLoading(false);
       }
     };
@@ -39,14 +41,16 @@ const DentistDashboard = () => {
     doc.text(`Scan Type: ${scan.scanType}`, 20, 60);
     doc.text(`Region: ${scan.region}`, 20, 70);
     doc.text(
-      `Upload Date: ${new Date(scan.uploadDate).toLocaleString()}`,
+      `Upload Date: ${
+        scan.uploadDate ? new Date(scan.uploadDate).toLocaleString() : "N/A"
+      }`,
       20,
       80
     );
 
-    // Add image
     const img = new Image();
     img.src = scan.imageUrl;
+    img.crossOrigin = "anonymous"; // helps with CORS for jsPDF
     img.onload = function () {
       doc.addImage(img, "JPEG", 20, 90, 150, 100);
       doc.save(`${scan.patientName}_scan.pdf`);
@@ -61,7 +65,7 @@ const DentistDashboard = () => {
 
   return (
     <>
-    <Header />
+      <Header />
       <div className="p-6">
         <h1 className="text-2xl font-bold mb-6">Dentist Dashboard</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -90,7 +94,9 @@ const DentistDashboard = () => {
                 </p>
                 <p>
                   <strong>Date:</strong>{" "}
-                  {new Date(scan.uploadDate).toLocaleString()}
+                  {scan.uploadDate
+                    ? new Date(scan.uploadDate).toLocaleString()
+                    : "N/A"}
                 </p>
               </div>
               <div className="flex gap-2 mt-2">

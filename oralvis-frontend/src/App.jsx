@@ -2,16 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import LoginPage from "./pages/LoginPage";
 import TechnicianDashboard from "./pages/TechnicianDashboard";
 import DentistDashboard from "./pages/DentistDashboard";
-
-// role-based protected route
-const ProtectedRoute = ({ children, role }) => {
-  const token = localStorage.getItem("token");
-  const userRole = localStorage.getItem("role");
-  if (!token) return <Navigate to="/login" />;
-  if (role && userRole !== role) return <Navigate to="/login" />;
-  return children;
-};
-
+import ProtectedRoute from "./components/ProtectedRoute"; 
 export default function App() {
   return (
     <Router>

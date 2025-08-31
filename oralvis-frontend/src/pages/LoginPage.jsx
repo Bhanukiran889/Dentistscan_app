@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+// import * as jwt_decode from "jwt-decode"; // updated import
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -16,12 +17,14 @@ export default function LoginPage() {
         email,
         password,
       });
-      // Store token & role in cookies
-      Cookies.set("token", res.data.token, { expires: 1 }); // expires in 1 day
-      Cookies.set("role", res.data.role, { expires: 1 });
 
-      // Navigate based on role
-      if (res.data.role === "Technician") navigate("/technician");
+      const token = res.data.token;
+      const role = res.data.role;
+      console.log(res.data)
+      Cookies.set("token", token, { expires: 1 });
+      Cookies.set("role", role, { expires: 1 });
+
+      if (role === "Technician") navigate("/technician");
       else navigate("/dentist");
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
