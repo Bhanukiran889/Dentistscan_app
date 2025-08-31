@@ -1,13 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
+import Cookies  from "js-cookie";
 
 const Header = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
+  const token = Cookies.get("token");
+  const role = Cookies.get("role");
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
+    Cookies.remove("token");
+    Cookies.remove("role");
     navigate("/login");
   };
 

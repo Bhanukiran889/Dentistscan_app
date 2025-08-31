@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import Header from "../components/Header";
+import Cookies from "js-cookie";
 
 export default function TechnicianDashboard() {
   const [patientName, setPatientName] = useState("");
@@ -21,9 +23,9 @@ export default function TechnicianDashboard() {
     formData.append("scanImage", file);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/scans/upload", formData, {
+      await axios.post("http://localhost:5000/api/scans/upload", formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${Cookies.get("token")}`,
           "Content-Type": "multipart/form-data",
         },
       });
@@ -39,53 +41,56 @@ export default function TechnicianDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h2 className="text-2xl font-bold mb-4">Technician Dashboard</h2>
-      <form
-        onSubmit={handleUpload}
-        className="bg-white shadow-lg p-6 rounded-xl max-w-md"
-      >
-        <input
-          type="text"
-          placeholder="Patient Name"
-          value={patientName}
-          onChange={(e) => setPatientName(e.target.value)}
-          className="w-full border p-2 mb-3 rounded"
-        />
-        <input
-          type="text"
-          placeholder="Patient ID"
-          value={patientId}
-          onChange={(e) => setPatientId(e.target.value)}
-          className="w-full border p-2 mb-3 rounded"
-        />
-        <input
-          type="text"
-          placeholder="Scan Type (X-Ray, CT, etc.)"
-          value={scanType}
-          onChange={(e) => setScanType(e.target.value)}
-          className="w-full border p-2 mb-3 rounded"
-        />
-        <input
-          type="text"
-          placeholder="Region (Upper Jaw, etc.)"
-          value={region}
-          onChange={(e) => setRegion(e.target.value)}
-          className="w-full border p-2 mb-3 rounded"
-        />
-        <input
-          type="file"
-          onChange={(e) => setFile(e.target.files[0])}
-          className="w-full border p-2 mb-3 rounded"
-        />
-        <button
-          type="submit"
-          className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700"
+    <>
+    <Header/>
+      <div className="min-h-screen bg-gray-100 p-6">
+        <h2 className="text-2xl font-bold mb-4">Technician Dashboard</h2>
+        <form
+          onSubmit={handleUpload}
+          className="bg-white shadow-lg p-6 rounded-xl max-w-md"
         >
-          Upload Scan
-        </button>
-        {message && <p className="mt-3 text-sm">{message}</p>}
-      </form>
-    </div>
+          <input
+            type="text"
+            placeholder="Patient Name"
+            value={patientName}
+            onChange={(e) => setPatientName(e.target.value)}
+            className="w-full border p-2 mb-3 rounded"
+          />
+          <input
+            type="text"
+            placeholder="Patient ID"
+            value={patientId}
+            onChange={(e) => setPatientId(e.target.value)}
+            className="w-full border p-2 mb-3 rounded"
+          />
+          <input
+            type="text"
+            placeholder="Scan Type (X-Ray, CT, etc.)"
+            value={scanType}
+            onChange={(e) => setScanType(e.target.value)}
+            className="w-full border p-2 mb-3 rounded"
+          />
+          <input
+            type="text"
+            placeholder="Region (Upper Jaw, etc.)"
+            value={region}
+            onChange={(e) => setRegion(e.target.value)}
+            className="w-full border p-2 mb-3 rounded"
+          />
+          <input
+            type="file"
+            onChange={(e) => setFile(e.target.files[0])}
+            className="w-full border p-2 mb-3 rounded"
+          />
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700"
+          >
+            Upload Scan
+          </button>
+          {message && <p className="mt-3 text-sm text-red-500">{message}</p>}
+        </form>
+      </div>
+    </>
   );
 }
