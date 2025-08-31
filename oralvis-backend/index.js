@@ -2,6 +2,7 @@ const morgan = require("morgan");
 const express = require("express");
 const cors = require("cors");
 const { authenticate, authorizeRole } = require("./middleware/authMiddleware");
+const authRoutes = require("./routes/authRoutes");
 const scanRoutes = require("./routes/scanRoutes");
 require("dotenv").config();
 
@@ -12,9 +13,8 @@ app.use(express.urlencoded({ extended: true })); // optional, for form-data
 app.use(morgan("dev"));
 
 // Routes
-const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
-
+app.use("/api/scans", scanRoutes)
 
 
 // Example protected route (Technician only)
