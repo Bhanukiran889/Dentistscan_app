@@ -30,7 +30,7 @@ const register = (req, res) => {
       res.json({
         message: "User registered successfully",
         userId,
-        token, // 🔑 include token here
+        token, 
       });
     });
   });
