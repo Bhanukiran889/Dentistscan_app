@@ -1,25 +1,25 @@
 const sqlite3 = require("sqlite3").verbose();
 
 const db = new sqlite3.Database("./oralvis.db", (err) => {
-  if (err) {
-    console.error("Error opening database:", err.message);
-  } else {
-    console.log("Connected to SQLite database.");
-  }
+    if (err) {
+        console.error("Error opening database:", err.message);
+    } else {
+        console.log("Connected to SQLite database.");
+    }
 });
 
 db.serialize(() => {
-  // Users table
-  db.run(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    // Users table
+    db.run(`CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY,
     email TEXT UNIQUE,
     password TEXT,
     role TEXT CHECK(role IN ('Technician', 'Dentist'))
   )`);
 
-  // Scans table
-  db.run(`CREATE TABLE IF NOT EXISTS scans (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    // Scans table
+    db.run(`CREATE TABLE IF NOT EXISTS scans (
+    id TEXT PRIMARY KEY,
     patientName TEXT,
     patientId TEXT,
     scanType TEXT,
@@ -28,5 +28,6 @@ db.serialize(() => {
     uploadDate TEXT
   )`);
 });
+
 
 module.exports = db;
