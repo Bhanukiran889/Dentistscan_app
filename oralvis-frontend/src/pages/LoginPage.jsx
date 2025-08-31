@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -15,8 +16,11 @@ export default function LoginPage() {
         email,
         password,
       });
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.role);
+      // Store token & role in cookies
+      Cookies.set("token", res.data.token, { expires: 1 }); // expires in 1 day
+      Cookies.set("role", res.data.role, { expires: 1 });
+
+      // Navigate based on role
       if (res.data.role === "Technician") navigate("/technician");
       else navigate("/dentist");
     } catch (err) {
