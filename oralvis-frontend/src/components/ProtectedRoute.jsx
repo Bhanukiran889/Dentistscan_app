@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children, role }) => {
     // Decode token to check expiry
     const decoded = jwtDecode(token);
     const currentTime = Date.now() / 1000; // in seconds
-
+    console.log(decoded.exp - currentTime)
     if (decoded.exp && decoded.exp < currentTime) {
       // Token expired → clear cookies and redirect
       Cookies.remove("token");
