@@ -7,18 +7,21 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const res = await axios.post("https://dentistscan-app.onrender.com/api/auth/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        "https://dentistscan-app.onrender.com/api/auth/login",
+        { email, password }
+      );
 
       const token = res.data.token;
       const role = res.data.role;
+
       Cookies.set("token", token, { expires: 1 });
       Cookies.set("role", role, { expires: 1 });
 
@@ -26,6 +29,8 @@ export default function LoginPage() {
       else navigate("/dentist");
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,9 +68,34 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className="w-full bg-indigo-600 text-white font-medium py-3 rounded-lg hover:bg-indigo-700 transition duration-200"
+          disabled={loading}
+          className={`w-full flex justify-center items-center bg-indigo-600 text-white p-3 rounded-lg font-semibold hover:bg-indigo-500 transition ${
+            loading ? "cursor-not-allowed opacity-70" : ""
+          }`}
         >
-          Login
+          {loading && (
+            <svg
+              className="animate-spin h-5 w-5 mr-2 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v8H4z"
+              ></path>
+            </svg>
+          )}
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>
