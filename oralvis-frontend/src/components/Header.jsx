@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import Cookies  from "js-cookie";
+import Cookies from "js-cookie";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -13,16 +13,22 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-blue-600 text-white p-4 flex justify-between items-center">
-      <h1 className="text-xl font-bold cursor-pointer" onClick={() => navigate(role === "Technician" ? "/technician" : "/dentist")}>
+    <header className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 shadow-md flex justify-between items-center">
+      <h1
+        className="text-2xl font-bold cursor-pointer tracking-wide hover:opacity-90 transition"
+        onClick={() =>
+          navigate(role === "Technician" ? "/technician" : "/dentist")
+        }
+      >
         OralVis Healthcare
       </h1>
+
       {token && (
         <nav className="flex gap-4 items-center">
           {role === "Technician" && (
             <Link
               to="/technician"
-              className="hover:bg-blue-500 px-3 py-1 rounded"
+              className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-sm font-medium"
             >
               Dashboard
             </Link>
@@ -30,14 +36,14 @@ const Header = () => {
           {role === "Dentist" && (
             <Link
               to="/dentist"
-              className="hover:bg-blue-500 px-3 py-1 rounded"
+              className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-sm font-medium"
             >
               Dashboard
             </Link>
           )}
           <button
             onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded"
+            className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 transition text-sm font-medium cursor-pointer"
           >
             Logout
           </button>

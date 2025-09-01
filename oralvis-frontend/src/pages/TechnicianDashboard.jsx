@@ -67,39 +67,93 @@ export default function TechnicianDashboard() {
             placeholder="Patient Name"
             value={patientName}
             onChange={(e) => setPatientName(e.target.value)}
-            className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+            className="w-full border border-gray-300 p-3 mb-4 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
           />
           <input
             type="text"
             placeholder="Patient ID"
             value={patientId}
             onChange={(e) => setPatientId(e.target.value)}
-            className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+            className="w-full border border-gray-300 p-3 mb-4 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
           />
           <input
             type="text"
             placeholder="Scan Type (X-Ray, CT, etc.)"
             value={scanType}
             onChange={(e) => setScanType(e.target.value)}
-            className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+            className="w-full border border-gray-300 p-3 mb-4 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
           />
           <input
             type="text"
             placeholder="Region (Upper Jaw, etc.)"
             value={region}
             onChange={(e) => setRegion(e.target.value)}
-            className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+            className="w-full border border-gray-300 p-3 mb-4 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
           />
-          <input
-            type="file"
-            onChange={(e) => setFile(e.target.files[0])}
-            className="w-full border border-gray-300 p-2 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          {/* File Upload with Drag & Drop */}
+          <div
+            className={`w-full p-6 border-2 border-dashed rounded-lg cursor-pointer transition
+    ${
+      file
+        ? "border-indigo-500 bg-indigo-50"
+        : "border-gray-300 bg-gray-50 hover:bg-gray-100"
+    }`}
+            onDragOver={(e) => e.preventDefault()} // prevent browser default
+            onDrop={(e) => {
+              e.preventDefault();
+              if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                setFile(e.dataTransfer.files[0]);
+              }
+            }}
+          >
+            <label
+              htmlFor="file-upload"
+              className="flex flex-col items-center justify-center w-full h-full cursor-pointer"
+            >
+              {file ? (
+                <p className="text-sm text-gray-700 font-medium">
+                  Selected File:{" "}
+                  <span className="text-indigo-600">{file.name}</span>
+                </p>
+              ) : (
+                <>
+                  <svg
+                    className="w-10 h-10 text-gray-400 mb-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M7 16a4 4 0 01-.88-7.903A5.992 5.992 0 0112 4c2.21 0 4.2 1.195 5.312 2.977A4 4 0 1119 16H7z"
+                    />
+                  </svg>
+                  <p className="text-gray-600 text-sm">
+                    <span className="font-semibold text-indigo-600">
+                      Click to upload
+                    </span>{" "}
+                    or drag & drop
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    PNG, JPG, JPEG (max 10MB)
+                  </p>
+                </>
+              )}
+              <input
+                id="file-upload"
+                type="file"
+                className="hidden"
+                onChange={(e) => setFile(e.target.files[0])}
+              />
+            </label>
+          </div>
 
           <button
             type="submit"
             disabled={loading}
-            className={`w-full flex justify-center items-center bg-green-600 text-white p-3 rounded-lg font-semibold hover:bg-green-700 transition ${
+            className={`w-full flex justify-center items-center bg-indigo-600 text-white p-3 rounded-lg font-semibold hover:bg-indigo-400 transition ${
               loading ? "cursor-not-allowed opacity-70" : ""
             }`}
           >

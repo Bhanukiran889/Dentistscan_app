@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-// import * as jwt_decode from "jwt-decode"; // updated import
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -20,7 +19,6 @@ export default function LoginPage() {
 
       const token = res.data.token;
       const role = res.data.role;
-      console.log(res.data)
       Cookies.set("token", token, { expires: 1 });
       Cookies.set("role", role, { expires: 1 });
 
@@ -32,30 +30,40 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-xl p-6 w-80"
+        className="bg-white shadow-xl rounded-2xl p-8 w-96 border border-gray-100"
       >
-        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
-        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+        <h2 className="text-3xl font-bold mb-6 text-center text-indigo-700">
+          Login
+        </h2>
+
+        {error && (
+          <p className="bg-red-100 text-red-600 text-sm p-2 rounded mb-4 text-center border border-red-200">
+            {error}
+          </p>
+        )}
+
         <input
           type="email"
           placeholder="Email"
-          className="w-full border p-2 mb-3 rounded"
+          className="w-full border border-gray-300 p-3 mb-4 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+
         <input
           type="password"
           placeholder="Password"
-          className="w-full border p-2 mb-3 rounded"
+          className="w-full border border-gray-300 p-3 mb-6 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          className="w-full bg-indigo-600 text-white font-medium py-3 rounded-lg hover:bg-indigo-700 transition duration-200"
         >
           Login
         </button>
