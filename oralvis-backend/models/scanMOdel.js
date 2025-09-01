@@ -18,6 +18,7 @@ function createScan({ patientName, patientId, scanType, region, imageUrl }) {
   });
 }
 
+
 function getAllScans() {
   return new Promise((resolve, reject) => {
     db.all(`SELECT * FROM scans`, [], (err, rows) => {
