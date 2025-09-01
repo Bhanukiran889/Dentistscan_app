@@ -35,7 +35,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className=" flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-xl rounded-2xl p-8 w-96 border border-gray-100"
@@ -43,13 +43,11 @@ export default function LoginPage() {
         <h2 className="text-3xl font-bold mb-6 text-center text-indigo-700">
           Login
         </h2>
-
         {error && (
           <p className="bg-red-100 text-red-600 text-sm p-2 rounded mb-4 text-center border border-red-200">
             {error}
           </p>
         )}
-
         <input
           type="email"
           placeholder="Email"
@@ -57,7 +55,6 @@ export default function LoginPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-
         <input
           type="password"
           placeholder="Password"
@@ -65,7 +62,6 @@ export default function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
         <button
           type="submit"
           disabled={loading}
@@ -97,6 +93,23 @@ export default function LoginPage() {
           )}
           {loading ? "Logging in..." : "Login"}
         </button>
+        <div className="mt-4 text-sm text-gray-600">
+          <p className="mb-1">
+            Note: Server may take 30–60 seconds to respond on first request
+            (cold start).
+          </p>
+          <p className="font-medium">Test Credentials:</p>
+          <ul className="list-disc list-inside">
+            <li>
+              <span className="font-semibold">Technician:</span>{" "}
+              tech@exm.com / <span>password:</span>123
+            </li>
+            <li>
+              <span className="font-semibold">Dentist:</span>{" "}
+              dentist@exm.com / <span>password:</span>123
+            </li>
+          </ul>
+        </div>
       </form>
     </div>
   );

@@ -35,7 +35,7 @@ This project was built as part of an assignment and demonstrates full-stack deve
 ---
 
 ## Live Demo
-[Live Demo Link](https://your-live-demo-url.com)
+[Live Demo Link](https://dentistscan-app.vercel.app/login)
 
 ---
 
