@@ -14,7 +14,7 @@ const DentistDashboard = () => {
   useEffect(() => {
     const fetchScans = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/scans", {
+        const response = await axios.get("https://dentistscan-app.onrender.com/api/scans", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -29,7 +29,7 @@ export default function TechnicianDashboard() {
     formData.append("scanImage", file);
 
     try {
-      await axios.post("http://localhost:5000/api/scans/upload", formData, {
+      await axios.post("https://dentistscan-app.onrender.com/api/scans/upload", formData, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
           "Content-Type": "multipart/form-data",
