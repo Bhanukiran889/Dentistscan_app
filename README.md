@@ -43,7 +43,7 @@ This project was built as part of an assignment and demonstrates full-stack deve
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/oralvis.git
+git clone https://github.com/Bhanukiran889/Dentistscan_app.git
 cd oralvis
 ```
 ## 2. Backend Setup
