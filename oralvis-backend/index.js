@@ -10,18 +10,8 @@ require("dotenv").config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // optional, for form-data
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
-
-// Run seed at startup
-(async () => {
-  try {
-    await seed();
-    console.log("✅ Seeding completed");
-  } catch (err) {
-    console.error("❌ Error in seeding:", err);
-  }
-})();
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -47,4 +37,15 @@ app.get(
 );
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+// ✅ Ensure seeding finishes BEFORE server starts
+(async () => {
+  try {
+    await seed();
+    console.log("✅ Seeding completed");
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+  } catch (err) {
+    console.error("❌ Error in seeding:", err);
+    process.exit(1); // fail fast
+  }
+})();
