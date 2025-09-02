@@ -215,3 +215,34 @@ Authorization: Bearer <JWT_TOKEN>
 * Only Technicians can upload scans.
 * Only Dentists can view scans.
 * PDF report generation is handled on the frontend, not an API.
+
+## Database Seeding
+
+This project uses **SQLite** and is deployed on **Render (free tier)**.  
+Since the database file is stored on the container’s ephemeral filesystem, **all data is wiped out whenever the server restarts** (cold start or redeploy).
+
+To handle this, the app includes a **seeding script** (`seed.js`) that runs automatically on server startup.
+
+### What the seeding script does
+- Creates tables (`users`, `scans`) if they do not already exist.
+- Inserts two default user accounts:
+  - **Technician** → `tech@exm.com / 123`
+  - **Dentist** → `dentist@exm.com / 123`
+- Inserts demo scan records so the **Dentist dashboard** always displays sample data, even after a restart.
+
+### Why this is necessary
+Without seeding:
+- On every restart, the database would be empty.
+- Login would fail (no users exist).
+- The Dentist dashboard would show nothing (no scans).
+
+With seeding:
+- Evaluators can immediately log in and test the app.
+- Dentist can always view at least a couple of scans.
+- Technician can log in and upload new scans during a session.
+
+---
+
+⚠️ **Note for evaluators:**  
+Since this project is hosted on Render’s free tier, uploaded scans and user data will not persist forever.  
+They may disappear after a restart or redeployment. This is expected behavior.

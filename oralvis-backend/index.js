@@ -1,6 +1,7 @@
 const morgan = require("morgan");
 const express = require("express");
 const cors = require("cors");
+const seed = require("./seed");
 const { authenticate, authorizeRole } = require("./middleware/authMiddleware");
 const authRoutes = require("./routes/authRoutes");
 const scanRoutes = require("./routes/scanRoutes");
@@ -12,12 +13,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // optional, for form-data
 app.use(morgan("dev"));
 
+// Run seed at startup
+(async () => {
+  try {
+    await seed();
+    console.log("✅ Seeding completed");
+  } catch (err) {
+    console.error("❌ Error in seeding:", err);
+  }
+})();
+
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/scans", scanRoutes)
+app.use("/api/scans", scanRoutes);
 
-
-// Example protected route (Technician only)
+// Example protected routes
 app.get(
   "/technician-test",
   authenticate,
@@ -37,4 +47,4 @@ app.get(
 );
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
