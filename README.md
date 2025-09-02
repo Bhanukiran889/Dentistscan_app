@@ -87,10 +87,10 @@ To make testing easier, use the following accounts:
 ### Techniaian
 
    * **Email**: tech@exm.com
-   * **Password**: tech123
+   * **Password**: 123
 ### Dentist
    * **Email**: dentist@exm.com
-   * **Password**: dentist123
+   * **Password**: 123
 
 
 ## Features Implemented
@@ -136,18 +136,11 @@ Login with email and password to receive a JWT.
 ### Request Body
 ```bash
 {
-  "email": "technician@example.com",
-  "password": "technician123"
+  "email": "tech@exm.com",
+  "password": "123"
 }
 ```
 
-### Response Body 
-```bash
-{
-  "email": "technician@example.com",
-  "password": "technician123"
-}
-```
 
 ### Response
 ```bash
